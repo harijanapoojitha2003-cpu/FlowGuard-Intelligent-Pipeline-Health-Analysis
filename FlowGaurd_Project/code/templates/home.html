@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowGuard</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Segoe UI', sans-serif;
+            
+            /* పర్పుల్ బేస్ కలర్ & బ్లెండ్ మోడ్ */
+            background-color: #4f46e5; 
+            background-blend-mode: multiply;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            transition: background-image 1s ease-in-out;
+        }
+
+        .content-wrapper {
+            text-align: center;
+            color: white;
+            padding: 20px;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 6rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin: 0;
+            letter-spacing: 3px;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        p {
+            font-size: 1.8rem;
+            margin: 10px 0 40px 0;
+            color: #e0e7ff;
+            font-weight: 500;
+        }
+
+        .login-box {
+            background: rgba(79, 70, 229, 0.4); 
+            backdrop-filter: blur(12px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            padding: 40px 60px;
+            border-radius: 30px;
+            display: inline-block;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .btn-login {
+            background: #61df46;
+            color: #1e293b;
+            padding: 18px 60px;
+            border-radius: 50px;
+            font-size: 1.4rem;
+            font-weight: 800;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-login:hover {
+            background: #4ade80;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="content-wrapper">
+        <h1>FLOWGUARD</h1>
+        <p>Intelligent pipeline health analysis</p>
+        
+        <div class="login-box">
+            <a href="/login" class="btn-login">LOGIN</a>
+        </div>
+    </div>
+
+    <script>
+        let imgs = [
+            "{{ url_for('static', filename='images/pipe1.jpg') }}",
+            "{{ url_for('static', filename='images/pipe2.jpg') }}",
+            "{{ url_for('static', filename='images/pipe3.jpg') }}",
+            "{{ url_for('static', filename='images/pipe4.jpg') }}",
+            "{{ url_for('static', filename='images/pipe5.jpg') }}"
+        ];
+
+        let i = 0;
+        function changeBg() {
+            document.body.style.backgroundImage = "url('" + imgs[i] + "')";
+            i = (i + 1) % imgs.length;
+        }
+        
+        changeBg();
+        setInterval(changeBg, 3000);
+    </script>
+</body>
+</html>

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Prediction</title>
+
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+
+</head>
+
+<style>
+    body {
+        /* 🌌 లాగిన్ పేజీలో ఉన్న అచ్చం అదే పర్పుల్ కలర్ + ఆకుల (Feather/Leaves) పాటర్న్ బ్యాక్‌గ్రౌండ్ ఇక్కడ పెట్టాను */
+        background-color: #f97316;
+        background-image: 
+            linear-gradient(rgba(129, 140, 248, 0.75), rgba(79, 70, 229, 0.85)),
+            url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=1920&auto=format&fit=crop') !important; 
+        background-size: cover !important;
+        background-position: center !important;
+        background-attachment: fixed !important;
+        min-height: 100vh;
+        font-family: 'Segoe UI', system-ui, sans-serif;
+    }
+    
+    .navbar {
+        background: #0f172a !important; /* టాప్ నవ్‌బార్ సాలిడ్ డార్క్ */
+    }
+    
+    /* 🎴 నీ మెయిన్ కంటైనర్ బాక్స్ - ప్లేస్‌మెంట్లు మారకుండా టెక్స్ట్ బాగా కనిపించేలా వైట్ షేడ్ ఇచ్చా */
+    .container.p-4.shadow {
+        background: rgb(253,174,68,1) !important; 
+        border: 2px solid rgba(79, 70, 229, 0.3) !important;
+        border-radius: 20px;
+        margin-top: 40px;
+        box-shadow: 0 30px 70px rgba(15, 5, 52, 0.25) !important;
+    }
+
+    /* 🏷️ హెడ్డింగ్స్ కి లాగిన్ పేజీ లోని మెయిన్ రాయల్ పర్పుల్-బ్లూ కలర్ */
+    h2, .navbar-brand {
+        color: #4f46e5 !important; 
+        font-weight: 800 !important;
+    }
+
+    /* 🏷️ లేబుల్స్ మరియు టెక్స్ట్ కి లాగిన్ పేజీ లోని రిచ్ డార్క్ కలర్ */
+    .form-label, label, .col-sm-4 {
+        font-weight: 800 !important;
+        color: #1e293b !important; 
+        font-size: 15px !important;
+        display: block !important;
+    }
+
+    /* 🎯 ఇన్‌పుట్ బాక్సులు మరియు డ్రాప్‌డౌన్స్ (ప్లేస్‌మెంట్‌లు కదలకుండా అక్షరాలు క్లియర్ గా ఉండటానికి) */
+    .form-select, .form-control, #sampleBrowser {
+        background-color: #ffffff !important;
+        border: 2px solid #ffffff !important;
+        color: #1e293b !important;
+        font-weight: 700 !important;
+        border-radius: 10px;
+        padding: 12px;
+    }
+
+    .form-control:focus, .form-select:focus {
+        border-color: #4f46e5 !important;
+        box-shadow: 0 0 0 0.25rem rgba(79, 70, 229, 0.15) !important;
+    }
+
+    /* 🔥 నంబర్ బాక్స్ పక్కన UP / DOWN బాణాలు (Arrows) పక్కాగా కనిపించడానికి ఈ CSS రాశాను */
+    input[type=number]::-webkit-inner-spin-button, 
+    input[type=number]::-webkit-outer-spin-button { 
+        opacity: 1 !important;
+        height: 30px;
+        cursor: pointer;
+    }
+
+    /* డ్రాప్‌డౌన్ ఆప్షన్స్ టెక్స్ట్ కలర్ */
+    .form-select option, #sampleBrowser option {
+        color: #1e293b !important;
+        background-color: #ffffff !important;
+        font-weight: 600;
+    }
+
+    /* 🟢 లాగిన్ పేజీ లోని అదే అందమైన లైమ్ గ్రీన్ కలర్ బటన్స్ */
+    .btn-primary, .btn-success {
+        background: #61df46 !important; 
+        color: #ffffff !important;
+        font-weight: 700 !important;
+        border: none !important;
+        border-radius: 25px !important; 
+        padding: 12px 30px !important;
+        box-shadow: 0 8px 20px rgba(97, 223, 70, 0.3) !important;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.2s ease;
+    }
+
+    .btn-primary:hover, .btn-success:hover {
+        background: #52cf37 !important;
+        transform: translateY(-1px);
+    }
+
+    .btn-info { background-color: #38bdf8 !important; color: white !important; border: none; font-weight: 600; border-radius: 10px; }
+    .btn-secondary { background-color: #f97316 !important; border: none; font-weight: 600; border-radius: 10px; }
+    /* 🚨 ఎమర్జెన్సీ అలర్ట్ బటన్ బ్లింక్ అవ్వడానికి లైవ్ యానిమేషన్ స్టైల్ */
+    @keyframes blinker {
+        50% { opacity: 0.2; background-color: #b91c1c !important; box-shadow: 0 0 30px #ef4444; }
+    }
+</style>
+
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark px-3" style="background-color: #0f172a !important; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+    <span class="navbar-brand fw-bold">FlowGuard</span>
+    <div class="ms-auto">
+        <a href="/index" class="btn btn-outline-light btn-sm me-2 active">Monitor Dashboard</a>
+        <a href="/analytics" class="btn btn-outline-success btn-sm me-2">Dataset Statistics</a>
+        <a href="/about" class="btn btn-outline-info btn-sm me-2 text-white">About Project</a>
+        <a href="/logout" class="btn btn-danger btn-sm">Logout</a>
+    </div>
+</nav>
+
+<div class="container p-4 shadow">
+     <h2>Pipeline Prediction</h2>
+     <div id="dynamicEmergencyZone"></div>
+
+     
+     
+     <div class="p-3 mb-4 rounded" style="background: rgba(239, 255, 18, 0.6); border: 1px dashed #f6803b;">
+         <label class="form-label d-block text-start" style="font-weight: bold; color: #ffffff; font-size: 15px;">🔎 Select Test Sample Data (Browser Profile):</label>
+         <select id="sampleBrowser" class="form-control" onchange="browserFillData()" style="cursor: pointer;">
+             <option value="">-- Choose a profile to auto-fill inputs --</option>
+             <option value="sample1" data-p="1.2" data-f="10" data-t="12" data-l="0" data-b="0">Sample 1: Normal Operation (Low Risk)</option>
+             <option value="sample2" data-p="7.5" data-f="180" data-t="45" data-l="1" data-b="0">Sample 2: Warning Alert (Medium Risk)</option>
+             <option value="sample3" data-p="9.5" data-f="240" data-t="52" data-l="1" data-b="1">Sample 3: Critical Threat (High Risk)</option>
+         </select>
+     </div>
+
+     <form action="/predict" method="post" class="mt-4">
+         
+         <div class="row align-items-center mb-3">
+             <div class="col-sm-4 text-start">
+                 <label class="form-label mb-0" style="font-weight: bold; color: #cbd5e1; font-size: 16px;">Pipeline Pressure (bar):</label>
+             </div>
+             <div class="col-sm-8">
+                 <input type="number" name="pressure" class="form-control" min="0" step="0.1" placeholder="Enter Pressure (bar)" value="{{ pressure if pressure is defined and pressure != 0.0 else '' }}" required>
+             </div>
+         </div>
+         
+         <div class="row align-items-center mb-3">
+             <div class="col-sm-4 text-start">
+                 <label class="form-label mb-0" style="font-weight: bold; color: #cbd5e1; font-size: 16px;">Water Flow Rate (L/S):</label>
+             </div>
+             <div class="col-sm-8">
+                 <input type="number" name="flow" class="form-control" min="0" step="1" placeholder="Enter Flow Rate (L/S)" value="{{ flow if flow is defined and flow != 0.0 else '' }}" required>
+             </div>
+         </div>
+         
+         <div class="row align-items-center mb-3">
+             <div class="col-sm-4 text-start">
+                 <label class="form-label mb-0" style="font-weight: bold; color: #cbd5e1; font-size: 16px;">Water Temperature (°C):</label>
+             </div>
+             <div class="col-sm-8">
+                 <input type="number" name="temp" class="form-control" min="0" step="1" placeholder="Enter Temperature (°C)" value="{{ temp if temp is defined and temp != 0.0 else '' }}" required>
+             </div>
+         </div>
+         
+         <div class="row align-items-center mb-3">
+             <div class="col-sm-4 text-start">
+                 <label class="form-label mb-0" style="font-weight: bold; color: #cbd5e1; font-size: 16px;">Leak Status:</label>
+             </div>
+             <div class="col-sm-8 text-start">
+                 <div class="form-check form-switch fs-4 ms-2">
+                     <input class="form-check-input" type="checkbox" id="leakSwitch" onchange="updateToggle('leak', this.checked)">
+                     <label class="form-check-label text-white fs-6" id="leakLabel" for="leakSwitch" style="font-weight: 700 !important; cursor: pointer;">No Leak</label>
+                     <input type="hidden" name="leak" id="leakHidden" value="0">
+                 </div>
+             </div>
+         </div>
+         
+         <div class="row align-items-center mb-4">
+             <div class="col-sm-4 text-start">
+                 <label class="form-label mb-0" style="font-weight: bold; color: #cbd5e1; font-size: 16px;">Burst Status:</label>
+             </div>
+             <div class="col-sm-8 text-start">
+                 <div class="form-check form-switch fs-4 ms-2">
+                     <input class="form-check-input" type="checkbox" id="burstSwitch" onchange="updateToggle('burst', this.checked)">
+                     <label class="form-check-label text-white fs-6" id="burstLabel" for="burstSwitch" style="font-weight: 700 !important; cursor: pointer;">No Burst</label>
+                     <input type="hidden" name="burst" id="burstHidden" value="0">
+                 </div>
+             </div>
+         </div>
+         
+         <button class="btn btn-primary w-100 py-2" style="font-size: 16px;">Predict Risk Level</button>
+     </form>
+
+<a href="/auto" class="btn btn-danger mt-2">
+Auto Sensor Prediction
+</a>
+
+<button type="button"
+class="btn btn-secondary mt-2"
+onclick="fillData()">
+Fill Sample Data
+</button>
+
+<script>
+    
+    
+
+    function updateToggle(id, isChecked) {
+        let hiddenInput = document.getElementById(id + 'Hidden');
+        let label = document.getElementById(id + 'Label');
+        if(isChecked) {
+            hiddenInput.value = "1";
+            label.innerText = (id === 'leak') ? "Leak Detected ⚠️" : "Burst Detected 🚨";
+            label.style.setProperty('color', '#f87171', 'important');
+        } else {
+            hiddenInput.value = "0";
+            label.innerText = (id === 'leak') ? "No Leak" : "No Burst";
+            label.style.setProperty('color', '#ffffff', 'important');
+        }
+    }
+    
+
+    // Sample Profiles డ్రాప్‌డౌన్ క్లిక్ చేసినప్పుడు స్లైడర్లు, స్విచ్‌లు అన్నీ ఆటోమేటిక్ గా మారడానికి
+    function browserFillData() {
+         var select = document.getElementById("sampleBrowser");
+         var option = select.options[select.selectedIndex];
+         if (!option.value) return;
+         
+         // నంబర్ ఫీల్డ్స్ ఫిల్ చేయడం
+         document.getElementsByName("pressure")[0].value = option.getAttribute("data-p");
+         document.getElementsByName("flow")[0].value = option.getAttribute("data-f");
+         document.getElementsByName("temp")[0].value = option.getAttribute("data-t");
+         
+         // లీక్ అండ్ బర్స్ట్ స్విచ్‌లని అప్‌డేట్ చేయడం
+         let leakValue = parseInt(option.getAttribute("data-l"));
+         let burstValue = parseInt(option.getAttribute("data-b"));
+         
+         document.getElementById("leakSwitch").checked = (leakValue === 1);
+         updateToggle('leak', leakValue === 1);
+         
+         document.getElementById("burstSwitch").checked = (burstValue === 1);
+         updateToggle('burst', burstValue === 1);
+     }
+     
+     // Fill Sample Data బటన్ కోసం
+     function fillData(){
+         document.getElementsByName("pressure")[0].value = "7";
+         document.getElementsByName("flow")[0].value = "220";
+         document.getElementsByName("temp")[0].value = "45";
+
+         document.getElementById("leakSwitch").checked = true;
+         updateToggle('leak', true);
+         
+         document.getElementById("burstSwitch").checked = false;
+         updateToggle('burst', false);
+     }
+</script>
+
+</div>
+
+</body>
+</html>

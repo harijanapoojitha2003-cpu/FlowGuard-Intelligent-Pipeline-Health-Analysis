@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Pipeline Guardian</title>
+    <style>
+        body {
+            /* 🌌 నువ్వు అడిగిన ఇమేజ్ లోని Exact Feather Pattern Gradient Background */
+            background-color: #818cf8;
+            background-image: 
+                linear-gradient(rgba(129, 140, 248, 0.75), rgba(79, 70, 229, 0.85)),
+                url('https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?q=80&w=1920&auto=format&fit=crop'); 
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 🎴 క్లీన్ మోడర్న్ లాగిన్ బాక్స్ (డబ్బా లాగా ఉండదు, చాలా లగ్జరీగా ఉంటుంది) */
+        .login-box-container {
+            width: 420px;
+            background: #ffffff;
+            padding: 50px 40px;
+            border-radius: 16px;
+            box-shadow: 0 30px 70px rgba(15, 5, 52, 0.35);
+        }
+
+        .login-box-container h2 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            color: #1e293b;
+            margin: 0 0 10px 0;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            color: #94a3b8;
+            font-size: 14px;
+            margin-bottom: 40px;
+            font-weight: 500;
+        }
+
+        /* 🎯 ఇమేజ్ లో లాగే డబ్బాలు లేని క్లీన్ అండర్-లైన్ ఇన్‌పుట్ ఫీల్డ్స్ */
+        .input-line-row {
+            position: relative;
+            margin-bottom: 35px;
+            border-bottom: 2px solid #cbd5e1;
+        }
+
+        /* లేబుల్స్ ని బోల్డ్ చేశాను స్పష్టంగా కనిపించడానికి */
+        .input-line-row label {
+            display: block;
+            font-size: 13px;
+            color: #4f46e5;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+
+        .input-line-row input {
+            width: 100%;
+            border: none !important;
+            outline: none !important;
+            padding: 10px 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: #1e293b;
+            background: transparent;
+        }
+
+        /* ఫోకస్ చేసినప్పుడు కింద బ్లూ లైన్ అనిమేషన్ */
+        .input-line-row::after {
+            content: '';
+            position: absolute;
+            bottom: -2px; left: 0; width: 0; height: 2px;
+            background: #4f46e5;
+            transition: width 0.3s ease;
+        }
+        .input-line-row:focus-within::after {
+            width: 100%;
+        }
+
+        /* 🔘 నువ్వు అడిగిన మోడర్న్ లైమ్ గ్రీన్ క్యాప్సూల్ బటన్ */
+        .btn-submit-neon {
+            background: #61df46; 
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 16px;
+            border: none;
+            padding: 12px 40px;
+            border-radius: 25px;
+            width: 100%; /* బటన్ బాక్స్ వెడల్పు అంతా వస్తుంది */
+            box-shadow: 0 8px 25px rgba(97, 223, 70, 0.4);
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.2s ease;
+            margin-top: 10px;
+        }
+
+        .btn-submit-neon:hover {
+            background: #52cf37;
+            transform: translateY(-1px);
+            box-shadow: 0 12px 30px rgba(97, 223, 70, 0.5);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-box-container">
+        <h2>Login</h2>
+        <div class="subtitle">Pipeline Guardian Control Center Access</div>
+        
+        <form method="POST">
+            <div class="input-line-row">
+                <label for="username">User Name</label>
+                <input type="text" id="username" name="username" value="admin" required autocomplete="off">
+            </div>
+            
+            <div class="input-line-row">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" value="admin" required>
+            </div>
+            
+            <button type="submit" class="btn-submit-neon">Login</button>
+        </form>
+    </div>
+
+</body>
+</html>
